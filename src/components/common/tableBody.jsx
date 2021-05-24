@@ -17,7 +17,7 @@ const CustomTableBody = ({ data, columns }) => {
                 {data.map(item => (
                     <TableRow key={item._id}>
                         {columns.map(col =>
-                            <TableCell align="center" key={createKey(item, col)}>
+                            <TableCell align="center" key={createKey(item, col)} >
                                 {renderCell(item, col)}
                             </TableCell>)}
                     </TableRow>))}

@@ -18,14 +18,15 @@ const TableHeader = ({ columns, onSort, sortColumn }) => {
         if (sortColumn.order === 'asc') return <i className="fa fa-sort-asc"></i>
         return <i className="fa fa-sort-desc"></i>
     }
-
+    console.log(columns)
     return (
         <>
             <TableHead>
                 <TableRow>
                     {
                         columns.map(col => (
-                            <TableCell
+                            < TableCell
+                                style={col.styleClass}
                                 key={col.path || col.key}
                                 onClick={() => raiseSort(col.path)}
                                 style={{ fontWeight: 800, cursor: 'pointer' }}

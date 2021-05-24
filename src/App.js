@@ -4,6 +4,13 @@ import { Box, Divider } from '@material-ui/core';
 import Counters from './components/counter/counters'
 import NavBar from './components/NavBar/NavBar'
 import Movie from './components/counter/movies/movie'
+import NotFound from './components/common/notFound'
+import {Route, Switch, Redirect} from 'react-router-dom'
+import Dashboard from './components/admin/dashboard'
+import Rental from './components/cutomers/rental'
+import Customers from './components/cutomers/customers';
+import MovieForm from './components/counter/movies/movieForm';
+import LoginForm from './components/auth/loginForm';
 
 function App() {
 
@@ -55,17 +62,22 @@ function App() {
   return (
     <>
       <NavBar totalCounters={counters.filter(c => (c.value > 0) ? c : null).length} />
+      <Switch>
+        <Route path="/login" component={LoginForm} />
+        <Route path='/counters' render={(props) => <Counters {...props} counters={counters} onDelete={handleDelete} onReset={handleReset} onIncrement={handleIncrement} onDecrement={handleDecrement} />} />
+        <Route path='/movies/:id' component={MovieForm} />
+        <Route path='/movies' component={Movie} />
+        <Route path='/admin' component={Dashboard} />
+        <Route path='/customers' component={Customers} />
+        <Route path='/rental' component={Rental} />
+        <Route path="/not-found" component={NotFound} />
+        <Redirect from="/" exact to="/movies" />
+        <Redirect to="/not-found" />
+      </Switch>
       <div>
         <div style={{ width: '100%' }}>
-          <Counters
-            counters={counters}
-            onDelete={handleDelete}
-            onReset={handleReset}
-            onIncrement={handleIncrement}
-            onDecrement={handleDecrement} />
           <Box m={2} />
           <Divider />
-          <Movie />
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getMovies } from './fakeMovieService'
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Hidden } from '@material-ui/core';
 import Pagination from '../../common/pagination'
 import { paginate } from '../../../utils/paginate'
 import ListGroup from '../../common/listGroup'
@@ -63,9 +63,11 @@ const Movie = () => {
     return (
         <>
             <Box display="flex" p={1}>
-                <Box p={1} xs={2} style={{ width: '20%' }}>
-                    <ListGroup items={genres} selectedItem={selectedGenre} onItemSelect={handleGenreSelect} />
-                </Box>
+                <Hidden smDown>
+                    <Box p={1} xs={2} style={{ width: '20%' }}>
+                        <ListGroup items={genres} selectedItem={selectedGenre} onItemSelect={handleGenreSelect} />
+                    </Box>
+                </Hidden>
                 <Box p={1} xs={10} style={{ width: '80%' }}>
                     <Box m={2} />
                     <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
