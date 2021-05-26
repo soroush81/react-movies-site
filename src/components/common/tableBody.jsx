@@ -25,11 +25,4 @@ const CustomTableBody = ({ data, columns }) => {
         </>
     )
 }
-
-{/* <TableCell align="center">
-                            
-                        </TableCell>
-                        <TableCell align="center">
-                            
-                        </TableCell> */}
 export default CustomTableBody;

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextField, Grid, Typography } from '@material-ui/core';
-
-function FormInput({ name, label, required, size, value, onChange, autoFocus, error }) {
+import { TextField, Grid } from '@material-ui/core';
+function FormInput({ value, error, name, size, ...rest }) {
     const { control } = useFormContext();
     return (
         <Grid item xs={size}>
@@ -10,13 +9,10 @@ function FormInput({ name, label, required, size, value, onChange, autoFocus, er
                 render={({ field }) => (
                     <TextField
                         fullWidth
-                        label={label}
-                        required
-                        value={value}
-                        onChange={onChange}
-                        autoFocus={autoFocus}
+                        {...rest}
                         name={name}
-                        error={error != undefined}
+                        value={value}
+                        error={error !== undefined}
                         helperText={error && (value === "" ? error : ' ')}
                     />
                 )}

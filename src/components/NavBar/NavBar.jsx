@@ -58,6 +58,7 @@ const NavBar = (props) => {
                         <NavLink to="/customers" style={navLinkStyle} activeStyle={activeNavLinkStyle}>Customers</NavLink>
                         <NavLink to="/rental" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Rental</NavLink>
                         <NavLink to="/login" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Login</NavLink>
+                        <NavLink to="/register" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Register</NavLink>
                     </Hidden>
                 </Toolbar>
             </AppBar>

@@ -4,14 +4,14 @@ import { useForm, FormProvider } from 'react-hook-form';
 import Joi from 'joi-browser'
 import UseCustomForm from './../common/useCustomForm';
 
-const LoginForm = () => {
-
+const RegisterForm = () => {
     const schema = {
-        username: Joi.string().required().label('Username'),
-        password: Joi.string().required().label('Password')
+        username: Joi.string().email().required().label('Username'),
+        password: Joi.string().min(5).required().label('Password'),
+        name: Joi.string().required().label('Name')
     }
 
-    const { handleSubmit, validate, renderInput } = UseCustomForm({ username: '', password: '' }, schema);
+    const { handleSubmit, validate, renderInput } = UseCustomForm({ username: '', password: '', name: '' }, schema);
     const methods = useForm();
 
     return (
@@ -22,10 +22,11 @@ const LoginForm = () => {
                         <Grid container alignItems="flex-start" spacing={2}>
                             <Grid item style={{ marginTop: 16 }}>
                             </Grid>
-                            {renderInput('username', 'UserName', 'text', true)}
+                            {renderInput('username', 'UserName', 'email', true)}
                             {renderInput('password', 'Password', 'password')}
+                            {renderInput('name', 'Name')}
                             <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate()}>Submit</Button>
+                                <Button variant="contained" color="primary" type="submit" disabled={!!validate()}>Register</Button>
                             </Grid>
                         </Grid>
                     </Paper>
@@ -35,4 +36,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+export default RegisterForm;

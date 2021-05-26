@@ -83,6 +83,4 @@ const Movie = () => {
 
 export default Movie
 
-{/* bgcolor="background.paper" */ }
-{/* bgcolor="grey.300"  */ }
 

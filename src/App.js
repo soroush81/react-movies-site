@@ -11,6 +11,7 @@ import Rental from './components/cutomers/rental'
 import Customers from './components/cutomers/customers';
 import MovieForm from './components/counter/movies/movieForm';
 import LoginForm from './components/auth/loginForm';
+import RegisterForm from './components/auth/registerForm';
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
       <NavBar totalCounters={counters.filter(c => (c.value > 0) ? c : null).length} />
       <Switch>
         <Route path="/login" component={LoginForm} />
+        <Route path="/register" component={RegisterForm} />
         <Route path='/counters' render={(props) => <Counters {...props} counters={counters} onDelete={handleDelete} onReset={handleReset} onIncrement={handleIncrement} onDecrement={handleDecrement} />} />
         <Route path='/movies/:id' component={MovieForm} />
         <Route path='/movies' component={Movie} />
