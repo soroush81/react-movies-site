@@ -42,7 +42,6 @@ const MovieForm = ({ match, history }) => {
     const doSubmit = (item) => {
         saveMovie(item);
         history.push("/movies")
-        console.log('submitted!!!')
     }
 
     const methods = useForm();

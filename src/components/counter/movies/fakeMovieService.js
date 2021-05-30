@@ -97,7 +97,6 @@ export function getMovieKeys() {
 export function saveMovie(movie) {
     let movieInDb = movies.find(m => m._id === movie._id) || {};
     movieInDb.title = movie.title;
-    console.log(movie.genreId)
     movieInDb.genre = genres.find(g => g._id === movie.genreId);
     movieInDb.numberInStock = movie.numberInStock;
     movieInDb.dailyRentalRate = movie.dailyRentalRate;
@@ -106,7 +105,5 @@ export function saveMovie(movie) {
         movieInDb.publishDate = "2002-03-05";
         movies.push(movieInDb);
     }
-    console.log(movies)
-    console.log(movieInDb)
     return movieInDb;
 }

@@ -27,8 +27,6 @@ const UseCustomForm = (vals, schema, mapToViewModel) => {
         for (let err of error.details) {
             errs[err.path[0]] = err.message;
         }
-        console.log(values)
-        console.log(errs)
         return errs;
     }
 

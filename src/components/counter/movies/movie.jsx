@@ -7,6 +7,7 @@ import ListGroup from '../../common/listGroup'
 import { getGenres } from '../movies/fakeMovieService'
 import MovieTable from './moviesTable'
 import { Link } from 'react-router-dom'
+import SearchBox from '../../common/searchBox'
 import _ from 'lodash'
 const Movie = ({ history }) => {
     const [movies, setMovies] = React.useState([])
@@ -14,7 +15,7 @@ const Movie = ({ history }) => {
     const [genres, setGenres] = useState([])
     const [selectedGenre, setSelectedGenre] = useState(null)
     const [sortColumn, setSortColumn] = useState({ path: 'title', order: 'asc' })
-
+    const [search, setSearch] = useState('')
     const pageSize = 3;
 
 
@@ -47,10 +48,23 @@ const Movie = ({ history }) => {
     const handleGenreSelect = (genre) => {
         setCurrentPage(1);
         setSelectedGenre(genre)
+        setSearch("")
     }
 
+    const handleSearch = (query) => {
+        setSearch(query);
+        setSelectedGenre(null)
+        setCurrentPage(1)
+    }
+
+
     const getPagedData = () => {
-        const filtered = (selectedGenre && selectedGenre._id) ? movies.filter(m => m.genre._id === selectedGenre._id) : movies;
+        let filtered = movies;
+        if (search)
+            filtered = movies.filter(m => m.title.toLowerCase().startsWith(search.toLowerCase()));
+        else if (selectedGenre && selectedGenre._id)
+            filtered = movies.filter(m => m.genre._id === selectedGenre._id);
+
         const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
         let pagedMovies = paginate(sorted, currentPage, pageSize);
 
@@ -73,6 +87,8 @@ const Movie = ({ history }) => {
                     <Button color="primary" component={Link} to="/movies/new" variant="contained" >New Movie</Button>
                     <Box m={2} />
                     <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
+                    <Box m={2} />
+                    <SearchBox value={search} onChange={handleSearch} />
                     <Box m={2} />
                     <MovieTable movies={pagedMovies} onDelete={handleDelete} onLike={handleLike} onSort={handleSort} sortColumn={sortColumn} />
                     <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
