@@ -90,10 +90,6 @@ export function getMovie(id) {
     return movies.find(m => m._id == id)
 }
 
-export function getMovieKeys() {
-    return Object.keys(movies);
-}
-
 export function saveMovie(movie) {
     let movieInDb = movies.find(m => m._id === movie._id) || {};
     movieInDb.title = movie.title;

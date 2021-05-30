@@ -25,6 +25,7 @@ const MovieForm = ({ match, history }) => {
             dailyRentalRate: m.dailyRentalRate
         }
     }
+    const methods = useForm();
     const { handleSubmit, renderInput, renderButton, renderSelect, customMapToViewModel } = UseCustomForm({
         _id: 0, title: '', genreId: 1, numberInStock: 0, dailyRentalRate: 0
     }, schema, mapToViewModel);
@@ -44,7 +45,6 @@ const MovieForm = ({ match, history }) => {
         history.push("/movies")
     }
 
-    const methods = useForm();
     return (
         <>
             <h1>Movie Form</h1>
@@ -63,7 +63,6 @@ const MovieForm = ({ match, history }) => {
                     </Paper>
                 </form>
             </FormProvider>
-            {/* <Button color="secondary" variant="contained" onClick={() => history.push('/movies')} >Save</Button> */}
         </>
     )
 }
