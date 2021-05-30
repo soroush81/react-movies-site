@@ -5,7 +5,7 @@ import Counters from './components/counter/counters'
 import NavBar from './components/NavBar/NavBar'
 import Movie from './components/counter/movies/movie'
 import NotFound from './components/common/notFound'
-import {Route, Switch, Redirect} from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Dashboard from './components/admin/dashboard'
 import Rental from './components/cutomers/rental'
 import Customers from './components/cutomers/customers';
@@ -48,9 +48,7 @@ function App() {
 
   const handleReset = () => {
     const reset = counters.map(c => {
-      console.log(c.value)
       c.value = 0;
-      console.log(c.value)
       return c;
     });
 

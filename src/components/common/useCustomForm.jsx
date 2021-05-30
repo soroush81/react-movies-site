@@ -4,24 +4,19 @@ import FormInput from './formInput'
 import FormSelect from './formSelect'
 import { Button } from '@material-ui/core';
 
-const UseCustomForm = (vals, schema) => {
+const UseCustomForm = (vals, schema, mapToViewModel) => {
     const [values, setValues] = useState(vals);
     const [errors, setErrors] = useState({});
-
-    const mapToViewModel = (item, modelKeys) => {
-        let data = {}
-        for (let key of modelKeys) {
-            data = { ...data, [key]: item[key] }
-        }
-
+    const customMapToViewModel = (item) => {
+        const data = mapToViewModel(item);
         setValues(data);
-
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = (e, doSubmit) => {
         e.preventDefault();
         setErrors(validate(values));
         if (errors) return;
+        doSubmit(values);
     };
 
     const validate = () => {
@@ -32,6 +27,8 @@ const UseCustomForm = (vals, schema) => {
         for (let err of error.details) {
             errs[err.path[0]] = err.message;
         }
+        console.log(values)
+        console.log(errs)
         return errs;
     }
 
@@ -95,6 +92,7 @@ const UseCustomForm = (vals, schema) => {
                 label={label}
                 items={items}
                 labelId={labelId}
+                selectedId={values[path]}
                 onChange={(e) => selectHandler(e, path)}
                 required
                 size={12} />
@@ -109,6 +107,6 @@ const UseCustomForm = (vals, schema) => {
 
     }
 
-    return { handleSubmit, validate, changeHandler, renderInput, renderButton, renderSelect, mapToViewModel, values, errors }
+    return { handleSubmit, validate, changeHandler, renderInput, renderButton, renderSelect, customMapToViewModel, values, errors }
 }
 export default UseCustomForm;

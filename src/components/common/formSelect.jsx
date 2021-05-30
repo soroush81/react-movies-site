@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { InputLabel, FormControl, Select, MenuItem, Grid } from '@material-ui/core';
 
-const FormSelect = ({ items, id, labelId, label, size, onChange }) => {
-
+const FormSelect = ({ items, id, labelId, label, selectedId, size, onChange, ...props }) => {
     return (
         <>
             <Grid item xs={size}>
@@ -12,9 +11,10 @@ const FormSelect = ({ items, id, labelId, label, size, onChange }) => {
                         labelId={labelId}
                         id={id}
                         name={id}
-                        value={items.value}
+                        value={selectedId}
                         onChange={onChange}
                         fullWidth
+                        {...props}
                     >
                         {items.map(item => (
                             <MenuItem value={item._id} key={item._id}>{item.value}</MenuItem>

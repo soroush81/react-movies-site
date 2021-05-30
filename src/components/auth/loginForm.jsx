@@ -11,7 +11,7 @@ const LoginForm = () => {
         password: Joi.string().required().label('Password')
     }
 
-    const { handleSubmit, validate, renderInput, renderButton } = UseCustomForm({ username: '', password: '' }, schema);
+    const { handleSubmit, renderInput, renderButton } = UseCustomForm({ username: '', password: '' }, schema);
     const methods = useForm();
 
     return (

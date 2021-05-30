@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const MoviesTable = ({ movies, onDelete, onLike, onSort, sortColumn }) => {
     const columns = [
         { path: "title", label: "Title", content: movie => <Link to={`/movies/${movie._id}`} style={{ textDecoration: "none" }}>{movie.title}</Link> },
-        { path: "genre.name", label: "Genre" },
+        { path: "genre.value", label: "Genre" },
         { path: "numberInStock", label: "Stock" },
         { path: "dailyRentalRate", label: "Rate" },
         { path: "publishDate", label: "PublishDate" },

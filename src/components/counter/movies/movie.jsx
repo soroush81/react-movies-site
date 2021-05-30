@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { getMovies } from './fakeMovieService'
-import { Box, Typography, Hidden } from '@material-ui/core';
+import { Box, Typography, Hidden, Button } from '@material-ui/core';
 import Pagination from '../../common/pagination'
 import { paginate } from '../../../utils/paginate'
 import ListGroup from '../../common/listGroup'
 import { getGenres } from '../movies/fakeMovieService'
 import MovieTable from './moviesTable'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
-import { Link, Button } from '@material-ui/core'
 const Movie = ({ history }) => {
     const [movies, setMovies] = React.useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -49,10 +49,6 @@ const Movie = ({ history }) => {
         setSelectedGenre(genre)
     }
 
-    const handleClick = () => {
-
-    }
-
     const getPagedData = () => {
         const filtered = (selectedGenre && selectedGenre._id) ? movies.filter(m => m.genre._id === selectedGenre._id) : movies;
         const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
@@ -74,8 +70,7 @@ const Movie = ({ history }) => {
                 </Hidden>
                 <Box p={1} xs={10} style={{ width: '80%' }}>
                     <Box m={2} />
-                    {/* <Link to="/movies/new" >New Movie</Link> */}
-                    <Button color="primary" variant="contained" onClick={() => history.push('/movies/new')}>New Movie</Button>
+                    <Button color="primary" component={Link} to="/movies/new" variant="contained" >New Movie</Button>
                     <Box m={2} />
                     <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
                     <Box m={2} />

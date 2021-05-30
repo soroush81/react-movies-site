@@ -25,7 +25,7 @@ const TableHeader = ({ columns, onSort, sortColumn }) => {
                 <TableRow>
                     {
                         columns.map(col => (
-                            < TableCell
+                            <TableCell
                                 style={col.styleClass}
                                 key={col.path || col.key}
                                 onClick={() => raiseSort(col.path)}

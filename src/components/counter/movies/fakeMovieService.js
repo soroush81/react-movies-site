@@ -2,7 +2,7 @@ const movies = [
     {
         _id: 1,
         title: "Terminator",
-        genre: { _id: 1, name: "Action" },
+        genre: { _id: 1, value: "Action" },
         numberInStock: 4,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -11,7 +11,7 @@ const movies = [
     {
         _id: 2,
         title: "Die Hard",
-        genre: { _id: 1, name: "Action" },
+        genre: { _id: 1, value: "Action" },
         numberInStock: 6,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -20,7 +20,7 @@ const movies = [
     {
         _id: 3,
         title: "Gone Girl",
-        genre: { _id: 1, name: "Action" },
+        genre: { _id: 1, value: "Action" },
         numberInStock: 4,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -29,7 +29,7 @@ const movies = [
     {
         _id: 4,
         title: "Mr Nobody",
-        genre: { _id: 2, name: "Romance" },
+        genre: { _id: 2, value: "Romance" },
         numberInStock: 6,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -38,7 +38,7 @@ const movies = [
     {
         _id: 5,
         title: "12 Angry Man",
-        genre: { _id: 3, name: "Comedy" },
+        genre: { _id: 3, value: "Comedy" },
         numberInStock: 4,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -47,7 +47,7 @@ const movies = [
     {
         _id: 6,
         title: "Die Hard 2",
-        genre: { _id: 1, name: "Action" },
+        genre: { _id: 1, value: "Action" },
         numberInStock: 6,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -56,7 +56,7 @@ const movies = [
     {
         _id: 7,
         title: "Ocean Eleven",
-        genre: { _id: 3, name: "Comedy" },
+        genre: { _id: 3, value: "Comedy" },
         numberInStock: 4,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -65,7 +65,7 @@ const movies = [
     {
         _id: 8,
         title: "Die Hard 3",
-        genre: { _id: 1, name: "Action" },
+        genre: { _id: 1, value: "Action" },
         numberInStock: 6,
         dailyRentalRate: 2.5,
         publishDate: "2021-05-19",
@@ -94,10 +94,19 @@ export function getMovieKeys() {
     return Object.keys(movies);
 }
 
-// export function saveMovie(movie) {
-//     let movieInDb = movies.find(m => m._id === movie._id) || {};
-//     movieInDb.name = movie.name;
-//     movieInDb.genre = movie.genre;
-//     movieInDb.numberInStock = movie.numberInStock;
-//     movieInDb.dailyRentalRate = movie.find;
-// }
+export function saveMovie(movie) {
+    let movieInDb = movies.find(m => m._id === movie._id) || {};
+    movieInDb.title = movie.title;
+    console.log(movie.genreId)
+    movieInDb.genre = genres.find(g => g._id === movie.genreId);
+    movieInDb.numberInStock = movie.numberInStock;
+    movieInDb.dailyRentalRate = movie.dailyRentalRate;
+    if (movie._id === 0) {
+        movieInDb._id = Math.max(...movies.map(m => m._id)) + 1;
+        movieInDb.publishDate = "2002-03-05";
+        movies.push(movieInDb);
+    }
+    console.log(movies)
+    console.log(movieInDb)
+    return movieInDb;
+}

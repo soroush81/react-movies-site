@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Grid, Button } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
 import Joi from 'joi-browser'
 import UseCustomForm from './../common/useCustomForm';
@@ -11,7 +11,7 @@ const RegisterForm = () => {
         name: Joi.string().required().label('Name')
     }
 
-    const { handleSubmit, validate, renderInput, renderButton } = UseCustomForm({ username: '', password: '', name: '' }, schema);
+    const { handleSubmit, renderInput, renderButton } = UseCustomForm({ username: '', password: '', name: '' }, schema);
     const methods = useForm();
 
     return (
