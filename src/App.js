@@ -12,6 +12,8 @@ import Customers from './components/cutomers/customers';
 import MovieForm from './components/counter/movies/movieForm';
 import LoginForm from './components/auth/loginForm';
 import RegisterForm from './components/auth/registerForm';
+import Posts from './components/posts/posts';
+import PostForm from './components/posts/postForm';
 
 function App() {
 
@@ -70,6 +72,8 @@ function App() {
         <Route path='/admin' component={Dashboard} />
         <Route path='/customers' component={Customers} />
         <Route path='/rental' component={Rental} />
+        <Route path='/posts/:id' component={PostForm} />
+        <Route path='/posts' component={Posts} />
         <Route path="/not-found" component={NotFound} />
         <Redirect from="/" exact to="/movies" />
         <Redirect to="/not-found" />
