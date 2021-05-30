@@ -1,17 +1,26 @@
 import React, { useState } from 'react'
 import Joi from 'joi-browser'
 import FormInput from './formInput'
-import { SubscriptionsOutlined } from '@material-ui/icons';
-
+import FormSelect from './formSelect'
+import { Button } from '@material-ui/core';
 
 const UseCustomForm = (vals, schema) => {
     const [values, setValues] = useState(vals);
     const [errors, setErrors] = useState({});
 
+    const mapToViewModel = (item, modelKeys) => {
+        let data = {}
+        for (let key of modelKeys) {
+            data = { ...data, [key]: item[key] }
+        }
+
+        setValues(data);
+
+    }
+
     const handleSubmit = e => {
         e.preventDefault();
         setErrors(validate(values));
-        // console.log(errors)
         if (errors) return;
     };
 
@@ -39,6 +48,7 @@ const UseCustomForm = (vals, schema) => {
     const changeHandler = ({ target: input }) => {
         const errorMessage = validateProperty(input);
         const newErrorObj = { ...errors };
+
         if (errorMessage) newErrorObj[input.name] = errorMessage;
         else delete newErrorObj[input.name];
 
@@ -46,6 +56,21 @@ const UseCustomForm = (vals, schema) => {
         const newValueObj = { ...values };
         newValueObj[input.name] = input.value;
         setValues(newValueObj);
+    }
+
+    const selectHandler = ({ target: input }, path) => {
+        const errorMessage = validateProperty(input);
+        const newErrorObj = { ...errors };
+
+        if (errorMessage) newErrorObj[input.name] = errorMessage;
+        else delete newErrorObj[input.name];
+        setErrors(newErrorObj);
+
+        const newValueObj = { ...values };
+        newValueObj[path] = input.value;
+        setValues(newValueObj);
+
+
     }
 
     const renderInput = (name, label, type = 'text', autoFocus = false) => {
@@ -63,6 +88,27 @@ const UseCustomForm = (vals, schema) => {
         )
     }
 
-    return { handleSubmit, validate, changeHandler, renderInput, values, errors }
+    const renderSelect = (items = {}, id = '', labelId = '', label = '', path = '') => {
+        return (
+            <FormSelect
+                id={id}
+                label={label}
+                items={items}
+                labelId={labelId}
+                onChange={(e) => selectHandler(e, path)}
+                required
+                size={12} />
+
+        )
+    }
+
+    const renderButton = (label) => {
+        return (
+            <Button variant="contained" color="primary" type="submit" disabled={!!validate()}>{label}</Button>
+        )
+
+    }
+
+    return { handleSubmit, validate, changeHandler, renderInput, renderButton, renderSelect, mapToViewModel, values, errors }
 }
 export default UseCustomForm;

@@ -7,8 +7,8 @@ import ListGroup from '../../common/listGroup'
 import { getGenres } from '../movies/fakeMovieService'
 import MovieTable from './moviesTable'
 import _ from 'lodash'
-
-const Movie = () => {
+import { Link, Button } from '@material-ui/core'
+const Movie = ({ history }) => {
     const [movies, setMovies] = React.useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [genres, setGenres] = useState([])
@@ -49,6 +49,10 @@ const Movie = () => {
         setSelectedGenre(genre)
     }
 
+    const handleClick = () => {
+
+    }
+
     const getPagedData = () => {
         const filtered = (selectedGenre && selectedGenre._id) ? movies.filter(m => m.genre._id === selectedGenre._id) : movies;
         const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
@@ -69,6 +73,9 @@ const Movie = () => {
                     </Box>
                 </Hidden>
                 <Box p={1} xs={10} style={{ width: '80%' }}>
+                    <Box m={2} />
+                    {/* <Link to="/movies/new" >New Movie</Link> */}
+                    <Button color="primary" variant="contained" onClick={() => history.push('/movies/new')}>New Movie</Button>
                     <Box m={2} />
                     <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
                     <Box m={2} />

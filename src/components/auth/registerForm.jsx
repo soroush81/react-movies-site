@@ -11,7 +11,7 @@ const RegisterForm = () => {
         name: Joi.string().required().label('Name')
     }
 
-    const { handleSubmit, validate, renderInput } = UseCustomForm({ username: '', password: '', name: '' }, schema);
+    const { handleSubmit, validate, renderInput, renderButton } = UseCustomForm({ username: '', password: '', name: '' }, schema);
     const methods = useForm();
 
     return (
@@ -20,13 +20,17 @@ const RegisterForm = () => {
                 <form style={{ margin: "0 auto", width: "450px" }} onSubmit={handleSubmit} noValidate>
                     <Paper style={{ padding: 16 }} variant="outlined">
                         <Grid container alignItems="flex-start" spacing={2}>
-                            <Grid item style={{ marginTop: 16 }}>
+                            <Grid item style={{ marginTop: 16 }} xs={12}>
+                                {renderInput('username', 'UserName', 'email', true)}
                             </Grid>
-                            {renderInput('username', 'UserName', 'email', true)}
-                            {renderInput('password', 'Password', 'password')}
-                            {renderInput('name', 'Name')}
-                            <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate()}>Register</Button>
+                            <Grid item style={{ marginTop: 16 }} xs={12}>
+                                {renderInput('password', 'Password', 'password')}
+                            </Grid>
+                            <Grid item style={{ marginTop: 16 }} xs={12}>
+                                {renderInput('name', 'Name')}
+                            </Grid>
+                            <Grid item style={{ marginTop: 16 }} xs={12}>
+                                {renderButton('Register')}
                             </Grid>
                         </Grid>
                     </Paper>

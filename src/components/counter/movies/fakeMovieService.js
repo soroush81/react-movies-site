@@ -87,7 +87,11 @@ export function getGenres() {
 }
 
 export function getMovie(id) {
-    return movies.find(m => m._id === id)
+    return movies.find(m => m._id == id)
+}
+
+export function getMovieKeys() {
+    return Object.keys(movies);
 }
 
 // export function saveMovie(movie) {
