@@ -33,7 +33,7 @@ const ListGroup = ({ items, onItemSelect, textProperty, valueProperty, selectedI
 
 
 ListGroup.defaultProps = {
-    textProperty: 'value',
+    textProperty: 'name',
     valueProperty: '_id'
 }
 export default ListGroup;

@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react'
-import UseCustomForm from '../../common/useCustomForm';
+import React, { useState, useEffect } from 'react'
+
+import UseCustomForm from '../common/useCustomForm';
 import { Paper, Grid } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
 import Joi from 'joi-browser';
-import { getGenres, getMovie, saveMovie } from './fakeMovieService'
+
+import { getMovie, saveMovie } from '../../services/movieService'
+import { getGenres } from '../../services/genreService'
 
 
 const MovieForm = ({ match, history }) => {
-    const genres = getGenres();
+    const [genres, setGenres] = useState([])
 
     const schema = {
-        _id: Joi.number(),
+        _id: Joi.string(),
         title: Joi.string().required().label('Username'),
-        genreId: Joi.number().required().label('Genre'),
+        genreId: Joi.string().required().label('Genre'),
         numberInStock: Joi.number().min(0).required().label('NumberInStock'),
         dailyRentalRate: Joi.number().min(0).max(10).required().label('Rate')
     }
@@ -27,21 +30,34 @@ const MovieForm = ({ match, history }) => {
     }
     const methods = useForm();
     const { handleSubmit, renderInput, renderButton, renderSelect, customMapToViewModel } = UseCustomForm({
-        _id: 0, title: '', genreId: 1, numberInStock: 0, dailyRentalRate: 0
+        _id: '', title: '', genreId: '', numberInStock: 0, dailyRentalRate: 0
     }, schema, mapToViewModel);
 
-    useEffect(() => {
-        const movieId = match.params.id;
-        if (movieId === "new") return;
+    const populateGenres = async () => {
+        setGenres(await getGenres());
+    }
 
-        const _movie = getMovie(movieId);
-        if (!_movie) return history.replace("/not-found")
-        customMapToViewModel(_movie);
+    const populateMovie = async () => {
+        try {
+            const movieId = match.params.id;
+            if (movieId === "new") return;
+
+            const _movie = await getMovie(movieId);
+            customMapToViewModel(_movie);
+        }
+        catch (ex) {
+            if (ex.response && ex.response.status === 404)
+                history.replace("/not-found")
+        }
+    }
+    useEffect(async () => {
+        await populateGenres();
+        await populateMovie();
     }, []);
 
 
-    const doSubmit = (item) => {
-        saveMovie(item);
+    const doSubmit = async (item) => {
+        await saveMovie(item);
         history.push("/movies")
     }
 

@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 
 const UseCustomForm = (vals, schema, mapToViewModel) => {
     const [values, setValues] = useState(vals);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState([]);
 
     const customMapToViewModel = (item) => {
         const data = mapToViewModel(item);
@@ -16,7 +16,9 @@ const UseCustomForm = (vals, schema, mapToViewModel) => {
     const handleSubmit = (e, doSubmit) => {
         e.preventDefault();
         setErrors(validate(values));
-        if (errors) return;
+        if (errors) {
+            return;
+        }
         doSubmit(values);
     };
 
@@ -28,7 +30,6 @@ const UseCustomForm = (vals, schema, mapToViewModel) => {
         for (let err of error.details) {
             errs[err.path[0]] = err.message;
         }
-        console.log(errs)
         return errs;
     }
 

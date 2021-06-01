@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import './App.css';
 import { Box, Divider } from '@material-ui/core';
 import Counters from './components/counter/counters'
-import NavBar from './components/NavBar/NavBar'
-import Movie from './components/counter/movies/movie'
+import NavBar from './components/navBar/navBar'
+import Movie from './components/movies/movie'
 import NotFound from './components/common/notFound'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Dashboard from './components/admin/dashboard'
 import Rental from './components/cutomers/rental'
 import Customers from './components/cutomers/customers';
-import MovieForm from './components/counter/movies/movieForm';
+import MovieForm from './components/movies/movieForm';
 import LoginForm from './components/auth/loginForm';
 import RegisterForm from './components/auth/registerForm';
 import Posts from './components/posts/posts';
 import PostForm from './components/posts/postForm';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 
@@ -62,6 +64,7 @@ function App() {
 
   return (
     <>
+       <ToastContainer />
       <NavBar totalCounters={counters.filter(c => (c.value > 0) ? c : null).length} />
       <Switch>
         <Route path="/login" component={LoginForm} />

@@ -17,7 +17,7 @@ const FormSelect = ({ items, id, labelId, label, selectedId, size, onChange, ...
                         {...props}
                     >
                         {items.map(item => (
-                            <MenuItem value={item._id} key={item._id}>{item.value}</MenuItem>
+                            <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
                         ))}
 
                     </Select>

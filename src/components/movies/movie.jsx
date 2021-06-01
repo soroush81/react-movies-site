@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { getMovies } from './fakeMovieService'
+import { getMovies, deleteMovie } from '../../services/movieService'
 import { Box, Typography, Hidden, Button } from '@material-ui/core';
-import Pagination from '../../common/pagination'
-import { paginate } from '../../../utils/paginate'
-import ListGroup from '../../common/listGroup'
-import { getGenres } from '../movies/fakeMovieService'
+import Pagination from '../common/pagination'
+import { paginate } from '../../utils/paginate'
+import ListGroup from '../common/listGroup'
+import { getGenres } from '../../services/genreService'
 import MovieTable from './moviesTable'
 import { Link } from 'react-router-dom'
-import SearchBox from '../../common/searchBox'
+import SearchBox from '../common/searchBox'
 import _ from 'lodash'
+import { toast } from 'react-toastify'
 const Movie = ({ history }) => {
     const [movies, setMovies] = React.useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,15 +20,26 @@ const Movie = ({ history }) => {
     const pageSize = 3;
 
 
-    useEffect(() => {
-        const allGenres = [{ _id: "", value: 'All Genres' }, ...getGenres()]
+    useEffect(async () => {
+        let allGenres = await getGenres();
+        allGenres = [{ _id: "", name: 'All Genres' }, ...allGenres]
         setGenres(allGenres)
-        setMovies(getMovies());
+        setMovies(await getMovies());
     }, []);
 
-    const handleDelete = (id) => {
-        const filtered = movies.filter(m => m._id !== id)
-        setMovies(filtered)
+    const handleDelete = async (id) => {
+        const originalMovies = movies;
+
+        try {
+            const filtered = movies.filter(m => m._id !== id)
+            setMovies(filtered)
+            await deleteMovie(id);
+        } catch (ex) {
+            if (ex.response && ex.response.status === 404)
+                toast.error('the movie has already been deleted')
+            setMovies(originalMovies)
+        }
+
     }
 
     const handleLike = (movie) => {

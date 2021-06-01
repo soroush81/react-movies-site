@@ -35,7 +35,6 @@ const PostForm = ({ history, match }) => {
         if (postId === "new") return;
 
         const _post = await getPost(postId);
-        console.log(_post)
         if (!_post) return history.replace("/not-found")
         customMapToViewModel(_post);
     }, []);
@@ -43,7 +42,6 @@ const PostForm = ({ history, match }) => {
 
     const doSubmit = async (item) => {
         const allPosts = await handleAdd(item);
-        console.log(allPosts);
         history.push({
             pathname: '/posts',
             state: { posts: allPosts }
@@ -54,7 +52,7 @@ const PostForm = ({ history, match }) => {
         <>
             Post Form
             <FormProvider {...methods}>
-                <form style={{ margin: "0 auto", width: "40%" }} onSubmit={(e) => handleSubmit(e, doSubmit)} noValidate>
+                <form style={{ margin: "0 auto", width: "40%" }} onSubmit={(e) => { handleSubmit(e, doSubmit) }} noValidate>
                     <Paper style={{ padding: 16 }} variant="outlined">
                         <Grid container alignItems="flex-start" spacing={2}>
                             {renderInput('title', 'Title', 'text', true)}
