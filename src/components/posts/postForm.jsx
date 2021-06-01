@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react'
-import axios from 'axios'
-import { Button, Paper, Grid } from '@material-ui/core'
+import { Paper, Grid } from '@material-ui/core'
 import { FormProvider, useForm } from 'react-hook-form'
 import Joi from 'joi-browser'
 import UseCustomForm from '../common/useCustomForm';
 import { getPost, savePost } from './postService'
 
-const apiEndPoint = "http://jsonplaceholder.typicode.com/posts"
 const PostForm = ({ history, match }) => {
     const postId = match.params.id;
 
     const handleAdd = async (item) => {
-        savePost(item)
+        return await savePost(item)
     }
 
     const schema = {
+        userId: Joi.number(),
         id: Joi.number(),
         title: Joi.string().required().label('Title'),
         body: Joi.string().required().label('Body')
     }
     const mapToViewModel = (p) => {
         return {
+            userId: p.userId,
             id: p.id,
             title: p.title,
             body: p.body
@@ -28,7 +28,7 @@ const PostForm = ({ history, match }) => {
     }
     const methods = useForm();
     const { handleSubmit, renderInput, renderButton, customMapToViewModel } = UseCustomForm({
-        id: 0, title: '', body: ''
+        userId: 3, id: 0, title: '', body: ''
     }, schema, mapToViewModel);
 
     useEffect(async () => {
@@ -41,12 +41,12 @@ const PostForm = ({ history, match }) => {
     }, []);
 
 
-    const doSubmit = (item) => {
-        handleAdd(item);
-
+    const doSubmit = async (item) => {
+        const allPosts = await handleAdd(item);
+        console.log(allPosts);
         history.push({
             pathname: '/posts',
-            state: { post: item, new: postId }
+            state: { posts: allPosts }
         })
     }
 

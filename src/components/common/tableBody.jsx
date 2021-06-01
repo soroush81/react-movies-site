@@ -8,14 +8,14 @@ const CustomTableBody = ({ data, columns }) => {
     }
 
     const createKey = (item, column) => {
-        return item._id + (column.path || column.key);
+        return Math.random() + item._id + (column.path || column.key);
     }
 
     return (
         <>
             <TableBody>
                 {data.map(item => (
-                    <TableRow key={item._id}>
+                    <TableRow key={item._id || Math.random()}>
                         {columns.map(col =>
                             <TableCell align="center" key={createKey(item, col)} >
                                 {renderCell(item, col)}

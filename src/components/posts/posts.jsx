@@ -1,50 +1,54 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import http from '../../services/httpService'
 import PostsTable from './postsTable'
 import { Box, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import Pagination from '../common/pagination'
 import { paginate } from '../../utils/paginate'
+import config from '../../config.json'
+import { getPosts } from './postService'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
-const apiEndPoint = "http://jsonplaceholder.typicode.com/posts"
 const Posts = ({ history }) => {
     const [posts, setPosts] = useState([])
     const [sortColumn, setSortColumn] = useState({ path: 'title', order: 'asc' })
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 8;
+    const pageSize = 5;
 
     const handleSort = (sortColumn) => {
         setSortColumn(sortColumn)
     }
 
     const handleDelete = async (post) => {
-        await axios.delete(apiEndPoint + '/' + post.id)
-        const filtered = posts.filter(p => p.id !== post.id)
-        console.log(filtered)
-        setPosts(filtered)
+        const originalPosts = posts;
+        const filtered = posts.filter(p => p.id !== post.id);
+        setPosts(filtered);
+        try {
+            await http.delete(config.apiEndPoint + `/${post.id}`);
+        }
+        catch (ex) {
+            if (ex.response && ex.response.status === 404)
+                alert('This post has already been deleted')
+            setPosts(originalPosts);
+        }
+
     }
 
     const handlePageChange = (event) => {
-        setCurrentPage(Number(event.target.innerText))
+        setCurrentPage(Number(event.target.innerText));
     }
 
     useEffect(async () => {
-        const { data: posts } = await axios.get(apiEndPoint);
-        setPosts(posts)
-        if (history.location.state != null && history.location.state.post) {
-            const _post = history.location.state.post
-            if (history.location.state.new === "new") {
-                setPosts([_post, ...posts])
-            }
-            else {
-                const _posts = posts
-                const index = _posts.findIndex(p => p.id == _post.id)
-                _posts[index] = { ..._post }
-                setPosts(_posts)
-            }
+        const posts = await getPosts();
+        if (history.location.state != null && history.location.state.posts) {
+            const _posts = history.location.state.posts
+            setPosts(_posts)
         }
+        else
+            setPosts(posts)
 
     }, []);
 
@@ -59,6 +63,7 @@ const Posts = ({ history }) => {
     if (posts.length === 0) return <p>There is no post in the list</p>
     return (
         <>
+            <ToastContainer />
             <Box m={2} />
             <Button component={Link} to="/posts/new" variant="contained" color="primary">Add Post</Button>
             <Box m={2} />

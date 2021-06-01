@@ -7,7 +7,9 @@ import App from './App';
 import { ThemeProvider } from '@material-ui/core/styles';
 import {BrowserRouter} from 'react-router-dom'
 import theme from './theme';
+import logger from './services/logService'
 
+logger.init();  
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme} >
