@@ -2,11 +2,10 @@ import React from 'react'
 import { AppBar, Badge, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link, NavLink } from 'react-router-dom';
-const NavBar = (props) => {
+const NavBar = ({ user }) => {
     const navLinkStyle =
     {
         textDecoration: "none",
-        color: "#777",
         padding: 20
     }
 
@@ -44,7 +43,6 @@ const NavBar = (props) => {
                         <MenuItem onClick={handleClose} component={Link} to="/movies">Movies</MenuItem>
                         <MenuItem onClick={handleClose} component={Link} to="/customers">Customers</MenuItem>
                         <MenuItem onClick={handleClose} component={Link} to="/rental">Rental</MenuItem>
-                        {/* <MenuItem onClick={handleClose} component={Link} to="/counters">Counter</MenuItem> */}
                         <MenuItem onClick={handleClose} component={Link} to="/admin">Dashboard</MenuItem>
                     </Menu>
                     <Typography variant="h6">
@@ -52,14 +50,22 @@ const NavBar = (props) => {
                             Movies
                         </Link>
                     </Typography>
-                    <Badge color="secondary" badgeContent={props.totalCounters} style={{ marginLeft: 20 }} />
                     <Hidden xsDown >
                         <NavLink to="/movies" style={navLinkStyle} activeStyle={activeNavLinkStyle}>Movies</NavLink>
                         <NavLink to="/customers" style={navLinkStyle} activeStyle={activeNavLinkStyle}>Customers</NavLink>
                         <NavLink to="/rental" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Rental</NavLink>
                         <NavLink to="/posts" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Posts</NavLink>
-                        <NavLink to="/login" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Login</NavLink>
-                        <NavLink to="/register" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Register</NavLink>
+                        {!user &&
+                            <>
+                                <NavLink to="/login" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Login</NavLink>
+                                <NavLink to="/register" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Register</NavLink>
+                            </>
+                        }
+                        {user &&
+                            <>
+                                <NavLink to="/profile" style={navLinkStyle} activeStyle={activeNavLinkStyle} >{user.name}</NavLink>
+                                <NavLink to="/logout" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Logout</NavLink>
+                            </>}
                     </Hidden>
                 </Toolbar>
             </AppBar>

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import SearchBox from '../common/searchBox'
 import _ from 'lodash'
 import { toast } from 'react-toastify'
-const Movie = ({ history }) => {
+const Movie = ({ history, user }) => {
     const [movies, setMovies] = React.useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [genres, setGenres] = useState([])
@@ -96,13 +96,18 @@ const Movie = ({ history }) => {
                 </Hidden>
                 <Box p={1} xs={10} style={{ width: '80%' }}>
                     <Box m={2} />
-                    <Button color="primary" component={Link} to="/movies/new" variant="contained" >New Movie</Button>
+                    {user && <Button color="primary" component={Link} to="/movies/new" variant="contained" >New Movie</Button>}
                     <Box m={2} />
                     <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
                     <Box m={2} />
                     <SearchBox value={search} onChange={handleSearch} />
                     <Box m={2} />
-                    <MovieTable movies={pagedMovies} onDelete={handleDelete} onLike={handleLike} onSort={handleSort} sortColumn={sortColumn} />
+                    <MovieTable
+                        movies={pagedMovies}
+                        onDelete={handleDelete}
+                        onLike={handleLike}
+                        onSort={handleSort}
+                        sortColumn={sortColumn} />
                     <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
                 </Box>
             </Box>

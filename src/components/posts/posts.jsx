@@ -7,7 +7,7 @@ import _ from 'lodash'
 import Pagination from '../common/pagination'
 import { paginate } from '../../utils/paginate'
 import config from '../../config.json'
-import { getPosts } from './postService'
+import { getPosts } from '../../services/postService'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 

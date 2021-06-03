@@ -1,32 +1,37 @@
 import http from './httpService'
-import {apiUrl} from '../config.json'
-import { getGenres } from './genreService';
+import { apiUrl } from '../config.json'
 
 let movies = []
+const apiEndPoint = `${apiUrl}/movies`;
+
+function movieUrl(id) {
+    return `${apiEndPoint}/${id}`
+}
 
 export async function getMovies() {
-    const {data} = await http.get(apiUrl+"/movies");
+    const { data } = await http.get(apiEndPoint);
     movies = data;
     return movies;
 }
 
 export async function getMovie(id) {
-    const {data} = await http.get(apiUrl+"/movies/"+id);
+    const { data } = await http.get(movieUrl(id));
     return data;
-  //  return movies.find(m => m._id == id)
 }
 
-export async function deleteMovie(id){
-    return await http.delete(apiUrl+"/movies"+"/"+id)
+export async function deleteMovie(id) {
+    return await http.delete(movieUrl(id))
 }
 
 export async function saveMovie(movie) {
-    if (movie._id) {
-        const body = {...movie};
-        delete body._id
-        return await http.put(apiUrl+"/movies" + '/' + movie._id, body)
+    const body = { ...movie };
+    delete body._id
+    console.log(movie)
+
+    if (movie._id && movie._id !== "") {
+        return await http.put(movieUrl(movie._id), body)
     }
-    return await http.post(apiUrl+"/movies", movie)
+    return await http.post(apiEndPoint, body)
 
 
 }

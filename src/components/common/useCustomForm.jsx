@@ -108,6 +108,6 @@ const UseCustomForm = (vals, schema, mapToViewModel) => {
 
     }
 
-    return { handleSubmit, validate, changeHandler, renderInput, renderButton, renderSelect, customMapToViewModel, values, errors }
+    return { handleSubmit, validate, changeHandler, renderInput, renderButton, renderSelect, customMapToViewModel, setErrors, values, errors }
 }
 export default UseCustomForm;

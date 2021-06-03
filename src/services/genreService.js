@@ -1,9 +1,10 @@
 import http from './httpService'
-import {apiUrl} from '../config.json'
+import { apiUrl } from '../config.json'
 
 let genres = [];
+const apiEndPoint = `${apiUrl}/genres`
 export async function getGenres() {
-    const {data} = await http.get(apiUrl+'/genres')
+    const { data } = await http.get(apiEndPoint)
     genres = data
     return genres;
 }

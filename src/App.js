@@ -1,81 +1,50 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import { Box, Divider } from '@material-ui/core';
-import Counters from './components/counter/counters'
-import NavBar from './components/navBar/navBar'
-import Movie from './components/movies/movie'
-import NotFound from './components/common/notFound'
+import { ToastContainer } from 'react-toastify'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import NavBar from './components/navBar/navBar'
+import Movie from './components/movies/movies'
+import NotFound from './components/common/notFound'
 import Dashboard from './components/admin/dashboard'
 import Rental from './components/cutomers/rental'
 import Customers from './components/cutomers/customers';
 import MovieForm from './components/movies/movieForm';
 import LoginForm from './components/auth/loginForm';
+import Logout from './components/auth/logout';
 import RegisterForm from './components/auth/registerForm';
 import Posts from './components/posts/posts';
 import PostForm from './components/posts/postForm';
-import { ToastContainer } from 'react-toastify'
+import ProtectedRoute from './components/common/proptectedRoute'
+import auth from './services/authService'
 import 'react-toastify/dist/ReactToastify.css'
+import './App.css';
 
 function App() {
+  const [user, setUser] = useState(null)
 
-  const [counters, setCounters] = useState([
-    { id: 1, value: 0 },
-    { id: 2, value: 0 },
-    { id: 3, value: 0 },
-    { id: 4, value: 0 },
-  ]);
+  useEffect(() => {
+    try {
 
-  const handleIncrement = (counter) => {
-    const newCounters = [...counters];
-    const index = newCounters.indexOf(counter)
-    newCounters[index] = { ...counter }
-    newCounters[index].value++;
-    setCounters(newCounters)
-  }
+      setUser(auth.getCurrentUser())
+    } catch (ex) {
 
-
-  const handleDecrement = (counter) => {
-    const newCounters = [...counters];
-    const index = newCounters.indexOf(counter);
-    newCounters[index] = { ...counter }
-    newCounters[index].value--;
-    setCounters(newCounters);
-  }
-
-
-
-  const handleDelete = (counterId) => {
-    const filtered = counters.filter(c => c.id !== counterId)
-    setCounters(filtered)
-  }
-
-  const handleReset = () => {
-    const reset = counters.map(c => {
-      c.value = 0;
-      return c;
-    });
-
-    setCounters(reset);
-  }
-
-
-
+    }
+  }, [])
 
   return (
     <>
-       <ToastContainer />
-      <NavBar totalCounters={counters.filter(c => (c.value > 0) ? c : null).length} />
+      <ToastContainer />
+      <NavBar user={user} />
       <Switch>
         <Route path="/login" component={LoginForm} />
+        <Route path="/logout" component={Logout} />
         <Route path="/register" component={RegisterForm} />
-        <Route path='/counters' render={(props) => <Counters {...props} counters={counters} onDelete={handleDelete} onReset={handleReset} onIncrement={handleIncrement} onDecrement={handleDecrement} />} />
-        <Route path='/movies/:id' component={MovieForm} />
-        <Route path='/movies' component={Movie} />
+        <ProtectedRoute path='/movies/:id' component={MovieForm} />
+        <Route path='/movies' render={(props) => <Movie {...props} user={user} />} />
         <Route path='/admin' component={Dashboard} />
         <Route path='/customers' component={Customers} />
         <Route path='/rental' component={Rental} />
-        <Route path='/posts/:id' component={PostForm} />
+        <ProtectedRoute path='/posts/:id' component={PostForm} />
         <Route path='/posts' component={Posts} />
         <Route path="/not-found" component={NotFound} />
         <Redirect from="/" exact to="/movies" />

@@ -3,7 +3,8 @@ import _ from 'lodash'
 import { TableCell, TableRow, TableBody } from '@material-ui/core';
 const CustomTableBody = ({ data, columns }) => {
     const renderCell = (item, column) => {
-        if (column.content) return column.content(item);
+        const contentColumn = column.content && (column.adminVisible || column.userVisible)
+        if (contentColumn) return column.content(item);
         return _.get(item, column.path);
     }
 
