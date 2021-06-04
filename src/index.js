@@ -5,11 +5,12 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 import { ThemeProvider } from '@material-ui/core/styles';
-import {BrowserRouter} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import theme from './theme';
 import logger from './services/logService'
 
-logger.init();  
+logger.init();
+console.log("superman", process.env.REACT_APP_NAME)
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme} >
