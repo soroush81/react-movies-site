@@ -14,8 +14,8 @@ const Counter = (props) => {
     return (
         <>
             <div>
-                <Button onClick={() => props.onIncrement(props.counter)} variant="contained" color="default" style={buttonStyle}>+</Button>
-                <Button onClick={() => props.onDecrement(props.counter)} disabled={props.counter.value === 0} variant="contained" color="default" style={buttonStyle}>-</Button>
+                <Button onClick={() => props.onIncrement(props.counter)} variant="contained" style={buttonStyle}>+</Button>
+                <Button onClick={() => props.onDecrement(props.counter)} disabled={props.counter.value === 0} variant="contained" style={buttonStyle}>-</Button>
                 <Button onClick={() => props.onDelete(props.counter.id)} variant="contained" color="secondary" style={buttonStyle}>X</Button>
                 <Badge variant="standard" badgeContent={formatCount()} color="primary" style={buttonStyle} />
             </div>

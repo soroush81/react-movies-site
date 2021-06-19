@@ -9,9 +9,10 @@ import { validate, validateField } from '../../hooks/useValidate'
 
 import { getMovie, saveMovie } from '../../services/movieService'
 import { getGenres } from '../../services/genreService'
-
+import { useStyles } from './styles'
 
 const MovieForm = ({ match, history }) => {
+    const classes = useStyles();
     const [genres, setGenres] = useState([])
     const [movie, setMovie] = useState({ _id: '', title: '', genreId: '', numberInStock: 0, dailyRentalRate: 0 });
     const [errors, setErrors] = useState([]);
@@ -46,7 +47,8 @@ const MovieForm = ({ match, history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors(validate(movie, schema));
-        if (errors) {
+        console.log(errors)
+        if (errors && errors.length > 0) {
             return;
         }
         doSubmit();
@@ -72,27 +74,30 @@ const MovieForm = ({ match, history }) => {
     }
 
     const changeHandler = ({ target: input }) => {
-        const newErrorObj = validateField(input, schema, errors);
-        setErrors(newErrorObj);
-        const newValueObj = { ...movie };
-        newValueObj[input.name] = input.value;
-        setMovie(newValueObj);
+        validateFormField(input)
+        updateMovieState(input.name, input.value)
     }
 
     const selectHandler = ({ target: input }, path) => {
+        validateFormField(input)
+        updateMovieState(path, input.value)
+    }
+
+    const validateFormField = (input) => {
         const newErrorObj = validateField(input, schema, errors);
         setErrors(newErrorObj);
+    }
 
+    const updateMovieState = (path, value) => {
         const newValueObj = { ...movie };
-        newValueObj[path] = input.value;
+        newValueObj[path] = value;
         setMovie(newValueObj);
     }
 
     return (
         <>
-            <h1>Movie Form</h1>
             <FormProvider {...methods}>
-                <form style={{ margin: "0 auto", width: "40%" }} onSubmit={(e) => handleSubmit(e, doSubmit)} noValidate>
+                <form className={classes.form} onSubmit={(e) => handleSubmit(e, doSubmit)} noValidate>
                     <Paper style={{ padding: 16 }} variant="outlined">
                         <Grid container alignItems="flex-start" spacing={2}>
                             <FormInput
@@ -130,7 +135,7 @@ const MovieForm = ({ match, history }) => {
                                 size={12}
                                 error={errors && errors['dailyRentalRate']} />
                             <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate(movie, schema)}>Save</Button>
+                                <Button variant="contained" color="secondary" type="submit" disabled={!!validate(movie, schema)}>Save</Button>
                             </Grid>
                         </Grid>
                     </Paper>

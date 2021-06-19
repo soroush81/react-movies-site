@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { getMovies, deleteMovie } from '../../services/movieService'
-import { Box, Typography, Hidden, Button } from '@material-ui/core';
+import { Box, Typography, Hidden, IconButton } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import Pagination from '../common/pagination'
 import { paginate } from '../../utils/paginate'
 import ListGroup from '../common/listGroup'
 import { getGenres } from '../../services/genreService'
+import { getMovies, deleteMovie } from '../../services/movieService'
 import MovieTable from './moviesTable'
-import { Link } from 'react-router-dom'
 import SearchBox from '../common/searchBox'
-import _ from 'lodash'
-import { toast } from 'react-toastify'
-const Movie = ({ history, user }) => {
+
+const Movie = ({ user }) => {
     const [movies, setMovies] = React.useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [genres, setGenres] = useState([])
@@ -84,32 +86,35 @@ const Movie = ({ history, user }) => {
     }
 
     const { totalCount, pagedMovies } = getPagedData()
-    if (movies.length === 0) return <p>There is no movie in the list</p>
+    if (movies.length === 0) return <Typography variant="body2">There is no movie in the list</Typography>
 
     return (
         <>
             <Box display="flex" p={1}>
                 <Hidden smDown>
-                    <Box p={1} xs={2} style={{ width: '20%' }}>
+                    <Box p={1} xs={2} style={{ width: '15%' }}>
                         <ListGroup items={genres} selectedItem={selectedGenre} onItemSelect={handleGenreSelect} />
                     </Box>
                 </Hidden>
-                <Box p={1} xs={10} style={{ width: '80%' }}>
-                    <Box m={2} />
-                    {user && <Button color="primary" component={Link} to="/movies/new" variant="contained" >New Movie</Button>}
-                    <Box m={2} />
-                    <Typography color="default" variant="h5" component="h2" >Show {totalCount} movies in database</Typography>
-                    <Box m={2} />
-                    <SearchBox value={search} onChange={handleSearch} />
-                    <Box m={2} />
-                    <MovieTable
-                        movies={pagedMovies}
-                        onDelete={handleDelete}
-                        onLike={handleLike}
-                        onSort={handleSort}
-                        sortColumn={sortColumn} />
-                    <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
+                <Box p={1} xs={10} style={{ margin: "0 auto" }}>
+                    <Box m={0} style={{ display: "flex", justifyContent: 'space-between' }}>
+                        <SearchBox value={search} onChange={handleSearch} />
+                        {user && <IconButton color="default" component={Link} to="/movies/new" variant="contained" ><AddIcon /></IconButton>}
+                    </Box>
+                    <Box m={1}>
+                        <MovieTable
+                            movies={pagedMovies}
+                            onDelete={handleDelete}
+                            onLike={handleLike}
+                            onSort={handleSort}
+                            sortColumn={sortColumn} />
+                        <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
+                <Hidden smDown>
+                    <Box p={1} xs={2} style={{ width: '15%' }}>
+                    </Box>
+                </Hidden>
             </Box>
 
         </>

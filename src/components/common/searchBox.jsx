@@ -10,7 +10,8 @@ const SearchBox = ({ value, onChange }) => {
                 onChange={e => onChange(e.target.value)}
                 placeholder="Search..."
                 name="search"
-                type="text" />
+                type="text"
+                size="small" />
         </>
     )
 }

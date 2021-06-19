@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import http from '../../services/httpService'
 import PostsTable from './postsTable'
-import { Box, Button } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import Pagination from '../common/pagination'
@@ -64,20 +65,23 @@ const Posts = ({ history }) => {
     return (
         <>
             <ToastContainer />
-            <Box m={2} />
-            <Button component={Link} to="/posts/new" variant="contained" color="primary">Add Post</Button>
-            <Box m={2} />
-            <PostsTable
-                posts={pagedPosts}
-                onSort={handleSort}
-                sortColumn={sortColumn}
-                onDelete={handleDelete} />
-            <Pagination
-                itemsCount={totalCount}
-                currentPage={currentPage}
-                pageSize={pageSize}
-                onPageChange={handlePageChange} />
-
+            <Box style={{ margin: "0 auto", width: "50%" }}>
+                <Box m={2}>
+                    <IconButton component={Link} to="/posts/new" variant="contained" color="primary"><AddIcon /></IconButton>
+                </Box>
+                <Box m={2}>
+                    <PostsTable
+                        posts={pagedPosts}
+                        onSort={handleSort}
+                        sortColumn={sortColumn}
+                        onDelete={handleDelete} />
+                    <Pagination
+                        itemsCount={totalCount}
+                        currentPage={currentPage}
+                        pageSize={pageSize}
+                        onPageChange={handlePageChange} />
+                </Box>
+            </Box>
         </>
     )
 }

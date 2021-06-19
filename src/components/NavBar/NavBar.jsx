@@ -1,17 +1,20 @@
 import React from 'react'
-import { AppBar, Badge, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Hidden } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link, NavLink } from 'react-router-dom';
+import { grey } from '@material-ui/core/colors';
 const NavBar = ({ user }) => {
+
     const navLinkStyle =
     {
         textDecoration: "none",
-        padding: 20
+        padding: 20,
+        color: "#fff"
     }
 
     const activeNavLinkStyle = {
-        background: '#f50056',
-        color: 'white'
+        background: grey[300],
+        color: 'orange'
     }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,8 +29,8 @@ const NavBar = ({ user }) => {
 
     return (
         <>
-            <AppBar position="static" color="default">
-                <Toolbar>
+            <AppBar position="static">
+                <Toolbar style={{ backgroundColor: grey[800] }}>
                     <Hidden smUp>
                         <IconButton onClick={handleClick} edge="start" color="inherit" aria-label="menu" aria-controls="simple-menu" aria-haspopup="true">
                             <MenuIcon />
@@ -46,7 +49,7 @@ const NavBar = ({ user }) => {
                         <MenuItem onClick={handleClose} component={Link} to="/admin">Dashboard</MenuItem>
                     </Menu>
                     <Typography variant="h6">
-                        <Link to="/" style={navLinkStyle}>
+                        <Link to="/" style={{ ...navLinkStyle, color: "orange" }}>
                             Movies
                         </Link>
                     </Typography>

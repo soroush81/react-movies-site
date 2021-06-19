@@ -1,6 +1,9 @@
 import React from 'react'
 import { TableCell, TableRow, TableHead } from '@material-ui/core';
+import { useStyles } from './tableStyle'
+
 const TableHeader = ({ columns, onSort, sortColumn }) => {
+    const classes = useStyles();
 
     const raiseSort = (path) => {
         const _sortColumn = { ...sortColumn }
@@ -21,7 +24,7 @@ const TableHeader = ({ columns, onSort, sortColumn }) => {
     return (
         <>
             <TableHead>
-                <TableRow>
+                <TableRow className={classes.headerStyle}>
                     {
                         columns.map(col => (
                             <TableCell
