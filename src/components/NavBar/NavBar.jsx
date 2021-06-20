@@ -9,7 +9,8 @@ const NavBar = ({ user, toggleTheme, themeIcon }) => {
     return (
         <>
             <AppBar position="static">
-                <Toolbar style={{ backgroundColor: grey[800] }}>
+                {/* style={{ backgroundColor: grey[800] }} */}
+                <Toolbar>
                     <HamMenu />
                     <Typography variant="h6">
                         <Link to="/" style={{ ...navLinkStyle, color: "orange" }}>

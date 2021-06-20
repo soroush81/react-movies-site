@@ -3,7 +3,7 @@ import {orange,grey} from '@material-ui/core/colors';
 export const light = {
     palette: {
       primary: {
-        main: grey[500],
+        main: grey[600],
     },
     secondary: {
         main: orange[700],
@@ -14,7 +14,7 @@ export const light = {
 export const dark = {
     palette: {
       primary: {
-        main: grey[500],
+        main: grey[800],
     },
     secondary: {
         main: orange[700],
