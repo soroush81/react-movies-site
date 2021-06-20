@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
-
-import { Paper, Grid, Button } from '@material-ui/core';
-import FormInput from '../common/formInput'
-import FormSelect from '../common/formSelect'
+import { Paper, Grid, IconButton, Button, Box } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
 import Joi from 'joi-browser';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { validate, validateField } from '../../hooks/useValidate'
-
-import { getMovie, saveMovie } from '../../services/movieService'
-import { getGenres } from '../../services/genreService'
+import { FormInput, FormSelect } from '../../components'
+import { getGenres, getMovie, saveMovie } from '../../services'
 import { useStyles } from './styles'
 
 const MovieForm = ({ match, history }) => {
@@ -44,16 +41,6 @@ const MovieForm = ({ match, history }) => {
         setGenres(await getGenres());
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setErrors(validate(movie, schema));
-        console.log(errors)
-        if (errors && errors.length > 0) {
-            return;
-        }
-        doSubmit();
-    };
-
     const populateMovie = async () => {
         try {
             const movieId = match.params.id;
@@ -68,24 +55,27 @@ const MovieForm = ({ match, history }) => {
         }
     }
 
+    const checkValidation = () => {
+        setErrors(validate(movie, schema));
+        if (errors && Object.keys(errors).length !== 0) {
+            return;
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        checkValidation();
+        doSubmit();
+    };
+
     const doSubmit = async () => {
         await saveMovie(movie);
         history.push("/movies")
     }
 
     const changeHandler = ({ target: input }) => {
-        validateFormField(input)
+        setErrors(validateField(input, schema, errors));
         updateMovieState(input.name, input.value)
-    }
-
-    const selectHandler = ({ target: input }, path) => {
-        validateFormField(input)
-        updateMovieState(path, input.value)
-    }
-
-    const validateFormField = (input) => {
-        const newErrorObj = validateField(input, schema, errors);
-        setErrors(newErrorObj);
     }
 
     const updateMovieState = (path, value) => {
@@ -93,6 +83,11 @@ const MovieForm = ({ match, history }) => {
         newValueObj[path] = value;
         setMovie(newValueObj);
     }
+
+    const onBackButtonClick = () => {
+        history.push("/movies")
+    }
+
 
     return (
         <>
@@ -111,11 +106,12 @@ const MovieForm = ({ match, history }) => {
                                 error={errors && errors['title']} />
                             <FormSelect
                                 id='genreId'
+                                name='genreId'
                                 label='Genre'
                                 items={genres}
                                 labelId='genreSelectLabel'
                                 selectedId={movie.genreId}
-                                onChange={(e) => selectHandler(e, 'genreId')}
+                                onChange={changeHandler}
                                 required
                                 size={12} />
                             <FormInput
@@ -134,8 +130,9 @@ const MovieForm = ({ match, history }) => {
                                 required
                                 size={12}
                                 error={errors && errors['dailyRentalRate']} />
-                            <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="secondary" type="submit" disabled={!!validate(movie, schema)}>Save</Button>
+                            <Grid item className={classes.buttonPanel}>
+                                <Button variant="contained" color="secondary" type="submit" disabled={validate(movie, schema)}>Save</Button>
+                                <IconButton onClick={() => onBackButtonClick("/movies")}><ArrowBackIcon /></IconButton>
                             </Grid>
                         </Grid>
                     </Paper>

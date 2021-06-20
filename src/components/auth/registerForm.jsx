@@ -21,7 +21,7 @@ const RegisterForm = ({ history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors(validate(user, schema));
-        if (errors) {
+        if (errors && Object.keys(errors).length !== 0) {
             return;
         }
         doSubmit();
@@ -83,7 +83,7 @@ const RegisterForm = ({ history }) => {
                                 size={12}
                                 error={errors && errors['name']} />
                             <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate(user, schema)}>Login</Button>
+                                <Button variant="contained" color="primary" type="submit" disabled={validate(user, schema)}>Login</Button>
                             </Grid>
                         </Grid>
                     </Paper>

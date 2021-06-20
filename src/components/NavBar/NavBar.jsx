@@ -1,75 +1,23 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Hidden } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu'
-import { Link, NavLink } from 'react-router-dom';
+import { AppBar, Toolbar, IconButton, Typography, Box, Hidden } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { grey } from '@material-ui/core/colors';
-const NavBar = ({ user }) => {
-
-    const navLinkStyle =
-    {
-        textDecoration: "none",
-        padding: 20,
-        color: "#fff"
-    }
-
-    const activeNavLinkStyle = {
-        background: grey[300],
-        color: 'orange'
-    }
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+import { navLinkStyle } from './styles'
+import NavMenu from './navMenu'
+import HamMenu from './hamMenu'
+const NavBar = ({ user, toggleTheme, themeIcon }) => {
     return (
         <>
             <AppBar position="static">
                 <Toolbar style={{ backgroundColor: grey[800] }}>
-                    <Hidden smUp>
-                        <IconButton onClick={handleClick} edge="start" color="inherit" aria-label="menu" aria-controls="simple-menu" aria-haspopup="true">
-                            <MenuIcon />
-                        </IconButton>
-                    </Hidden>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose} component={Link} to="/movies">Movies</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to="/customers">Customers</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to="/rental">Rental</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to="/admin">Dashboard</MenuItem>
-                    </Menu>
+                    <HamMenu />
                     <Typography variant="h6">
                         <Link to="/" style={{ ...navLinkStyle, color: "orange" }}>
                             Movies
                         </Link>
                     </Typography>
-                    <Hidden xsDown >
-                        <NavLink to="/movies" style={navLinkStyle} activeStyle={activeNavLinkStyle}>Movies</NavLink>
-                        <NavLink to="/customers" style={navLinkStyle} activeStyle={activeNavLinkStyle}>Customers</NavLink>
-                        <NavLink to="/rental" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Rental</NavLink>
-                        <NavLink to="/posts" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Posts</NavLink>
-                        {!user &&
-                            <>
-                                <NavLink to="/login" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Login</NavLink>
-                                <NavLink to="/register" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Register</NavLink>
-                            </>
-                        }
-                        {user &&
-                            <>
-                                <NavLink to="/profile" style={navLinkStyle} activeStyle={activeNavLinkStyle} >{user.name}</NavLink>
-                                <NavLink to="/logout" style={navLinkStyle} activeStyle={activeNavLinkStyle} >Logout</NavLink>
-                            </>}
-                    </Hidden>
+                    <NavMenu user={user} />
+                    <IconButton onClick={toggleTheme}>{themeIcon}</IconButton>
                 </Toolbar>
             </AppBar>
             <Box m={2} />

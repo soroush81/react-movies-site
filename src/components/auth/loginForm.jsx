@@ -20,9 +20,10 @@ const LoginForm = ({ history, location }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors(validate(user, schema));
-        if (errors) {
+        if (errors && Object.keys(errors).length !== 0) {
             return;
         }
+
         doSubmit();
     };
 
@@ -75,7 +76,7 @@ const LoginForm = ({ history, location }) => {
                                 type='password'
                                 error={errors && errors['username']} />
                             <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate(user, schema)}>Login</Button>
+                                <Button variant="contained" color="primary" type="submit" disabled={validate(user, schema)}>Login</Button>
                             </Grid>
 
                         </Grid>

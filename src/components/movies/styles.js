@@ -12,5 +12,6 @@ export const useStyles = makeStyles(theme => ({
         "@media (min-width: 1280px)": {
             width: "450px"
         }
-    }
+    },
+    buttonPanel:{ marginTop: 16, width: "100%", display: "flex", justifyContent: "space-between" }
 }));

@@ -8,6 +8,7 @@ const StyledListItem = withStyles({
         }
     },
 })(ListItem);
+
 const ListGroup = ({ items, onItemSelect, textProperty, valueProperty, selectedItem }) => {
     return (
         <>

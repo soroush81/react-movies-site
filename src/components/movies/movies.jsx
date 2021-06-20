@@ -4,13 +4,10 @@ import AddIcon from '@material-ui/icons/Add';
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
-import Pagination from '../common/pagination'
+import { Pagination, MovieTable, SearchBox } from '../../components'
+import { getGenres, getMovies, deleteMovie } from '../../services'
 import { paginate } from '../../utils/paginate'
-import ListGroup from '../common/listGroup'
-import { getGenres } from '../../services/genreService'
-import { getMovies, deleteMovie } from '../../services/movieService'
-import MovieTable from './moviesTable'
-import SearchBox from '../common/searchBox'
+import GenreList from './genreList'
 
 const Movie = ({ user }) => {
     const [movies, setMovies] = React.useState([])
@@ -20,7 +17,6 @@ const Movie = ({ user }) => {
     const [sortColumn, setSortColumn] = useState({ path: 'title', order: 'asc' })
     const [search, setSearch] = useState('')
     const pageSize = 3;
-
 
     useEffect(async () => {
         let allGenres = await getGenres();
@@ -88,28 +84,26 @@ const Movie = ({ user }) => {
     const { totalCount, pagedMovies } = getPagedData()
     if (movies.length === 0) return <Typography variant="body2">There is no movie in the list</Typography>
 
+
+    const movieTable = (<>
+        <MovieTable
+            movies={pagedMovies}
+            onDelete={handleDelete}
+            onLike={handleLike}
+            onSort={handleSort}
+            sortColumn={sortColumn} />
+        <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
+    </>)
     return (
         <>
             <Box display="flex" p={1}>
-                <Hidden smDown>
-                    <Box p={1} xs={2} style={{ width: '15%' }}>
-                        <ListGroup items={genres} selectedItem={selectedGenre} onItemSelect={handleGenreSelect} />
-                    </Box>
-                </Hidden>
+                <GenreList data={genres} selectedGenre={selectedGenre} onGenreSelect={handleGenreSelect} />
                 <Box p={1} xs={10} style={{ margin: "0 auto" }}>
-                    <Box m={0} style={{ display: "flex", justifyContent: 'space-between' }}>
+                    <Box m={1} style={{ display: "flex", justifyContent: 'space-between' }}>
                         <SearchBox value={search} onChange={handleSearch} />
-                        {user && <IconButton color="default" component={Link} to="/movies/new" variant="contained" ><AddIcon /></IconButton>}
+                        {user && <IconButton component={Link} to="/movies/new" variant="contained" ><AddIcon /></IconButton>}
                     </Box>
-                    <Box m={1}>
-                        <MovieTable
-                            movies={pagedMovies}
-                            onDelete={handleDelete}
-                            onLike={handleLike}
-                            onSort={handleSort}
-                            sortColumn={sortColumn} />
-                        <Pagination itemsCount={totalCount} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange} />
-                    </Box>
+                    {movieTable}
                 </Box>
                 <Hidden smDown>
                     <Box p={1} xs={2} style={{ width: '15%' }}>

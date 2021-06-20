@@ -93,7 +93,7 @@ const PostForm = ({ history, match }) => {
                                 type='text'
                                 error={errors && errors['body']} />
                             <Grid item style={{ marginTop: 16 }}>
-                                <Button variant="contained" color="primary" type="submit" disabled={!!validate(post, schema)}>Save</Button>
+                                <Button variant="contained" color="primary" type="submit" disabled={validate(post, schema)}>Save</Button>
                             </Grid>
                         </Grid>
                     </Paper>
